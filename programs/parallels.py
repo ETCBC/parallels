@@ -103,7 +103,7 @@ if 'SCRIPT' not in locals():
     FORCE = True
     FORCE_MATRIX = False
     CORE_NAME = 'bhsa'
-    VERSION= 'c'
+    VERSION= '4b'
     CORE_MODULE = 'core'
 
 def stop(good=False):
@@ -418,6 +418,7 @@ thisRepo = '{}/{}'.format(repoBase, module)
 
 coreTf = '{}/tf/{}'.format(coreRepo, VERSION)
 
+allTemp = '{}/_temp'.format(thisRepo)
 thisTemp = '{}/_temp/{}'.format(thisRepo, VERSION)
 thisSave = '{}/{}'.format(thisTemp, module)
 
@@ -503,11 +504,17 @@ VALUE_LABELS = dict(
     lr='this experiment is the last one run',
 )
 
+# note that the TF_TABLE and LOCAL_BASE_COMP are deliberately
+# located in the version independent
+# part of the tempdir.
+# Here the results of expensive calculations are stored,
+# to be used by all versions
+
 # crossrefs for TF
 TF_MATRIX = (False, 'verse', 'LCS')
 TF_SIMILARITY = 75
 TF_FEATURE = 'crossref'
-TF_TABLE = '{}/parallelTable.tsv'.format(thisTemp)
+TF_TABLE = '{}/parallelTable.tsv'.format(allTemp)
 
 # crossrefs for SHEBANQ
 SHEBANQ_MATRIX = (False, 'verse', 'SET')
@@ -524,7 +531,7 @@ SIMILARITY_PROGRESS = 5 * MEGA
 CLIQUES_PROGRESS = 1 * KILO
 
 # locations and hyperlinks
-LOCAL_BASE_COMP = '{}/calculus'.format(thisTemp)
+LOCAL_BASE_COMP = '{}/calculus'.format(allTemp)
 LOCAL_BASE_OUTP = 'files'
 EXPERIMENT_DIR = 'experiments'
 EXPERIMENT_FILE = 'experiments'
@@ -1794,7 +1801,7 @@ def show_all_experiments():
 # We need some utility function geared to TF feature production.
 # The `get_verse()` function is simpler, and we do not have to run full experiments.
 
-# In[19]:
+# In[32]:
 
 
 def writeSimTable(similars):
@@ -1816,10 +1823,8 @@ def readSimTable():
             verseNode1 = T.nodeFromSection((book1, int(chapter1), int(verse1)))
             verseNode2 = T.nodeFromSection((book2, int(chapter2), int(verse2)))
             if verseNode1 != int(v1):
-                print('->{}<->{}<-'.format(int(v1), verseNode1))
                 stats.add(verseNode1)
             if verseNode2 != int(v2):
-                print('->{}<->{}<-'.format(int(v2), verseNode2))
                 stats.add(verseNode2)
             similars.append((
                 verseNode1, verseNode2, int(sim), 
@@ -1853,7 +1858,7 @@ def makeSimTable():
     return similars
 
 
-# In[20]:
+# In[33]:
 
 
 utils.caption(4, 'CROSSREFS: Fetching crossrefs')
@@ -1875,14 +1880,14 @@ else:
     similars = readSimTable()
 
 
-# In[21]:
+# In[34]:
 
 
-if not SCRIPT or True:
+if not SCRIPT:
     print('\n'.join(sorted(repr(sim) for sim in similars)[0:10]))
 
 
-# In[22]:
+# In[35]:
 
 
 crossrefData = {}
@@ -1896,7 +1901,7 @@ for (v1, v2, sim, *x) in similars:
 # We generate the feature `crossref`.
 # It is an edge feature between verse nodes, with the similarity as weight.. 
 
-# In[23]:
+# In[36]:
 
 
 utils.caption(4, 'Writing TF parallel features')
@@ -1923,7 +1928,7 @@ TF.save(nodeFeatures=nodeFeatures, edgeFeatures=edgeFeatures, metaData=metaData)
 # 
 # Check differences with previous versions.
 
-# In[24]:
+# In[37]:
 
 
 utils.checkDiffs(thisSave, thisDeliver, only={newFeature})
@@ -1933,7 +1938,7 @@ utils.checkDiffs(thisSave, thisDeliver, only={newFeature})
 # 
 # Copy the new TF feature from the temporary location where it has been created to its final destination.
 
-# In[25]:
+# In[38]:
 
 
 utils.deliverDataset(thisSave, thisDeliver)
@@ -1941,7 +1946,7 @@ utils.deliverDataset(thisSave, thisDeliver)
 
 # # Stage: compile TF
 
-# In[31]:
+# In[39]:
 
 
 utils.caption(4, 'Load and compile the new TF features')
@@ -1969,7 +1974,7 @@ for verseNode in L.d(chapterNode, otype='verse'):
 utils.caption(0, '\t{} start verses'.format(len(startVerses)))
 
 
-# In[52]:
+# In[41]:
 
 
 for (start, crossrefs) in sorted(startVerses.items()):
@@ -1981,7 +1986,7 @@ for (start, crossrefs) in sorted(startVerses.items()):
         ), continuation=True)
 
 
-# In[ ]:
+# In[29]:
 
 
 if SCRIPT:
@@ -1992,7 +1997,7 @@ if SCRIPT:
 # 
 # Based on selected similarity matrices, we produce a SHEBANQ note set of cross references for similar passages.
 
-# In[20]:
+# In[30]:
 
 
 def get_verse(i, ca=False): return get_verse_w(chunks[i][0], ca=ca)
@@ -2255,7 +2260,7 @@ def crossrefs2shebanq():
 # 
 # If none of the matrices and cliques have been computed before on the system where this runs, doing all experiments might take multiple hours (4-8).
 
-# In[22]:
+# In[31]:
 
 
 reset_params()
@@ -2268,7 +2273,7 @@ do_all_experiments()
 #do_all_chunks()
 
 
-# In[23]:
+# In[ ]:
 
 
 HTML(ecss)
@@ -2282,7 +2287,7 @@ HTML(ecss)
 # 
 # Horizontally you see the degree of similarity from 0 to 100%, vertically the number of pairs that have that (rounded) similarity. This axis is logarithmic.
 
-# In[28]:
+# In[ ]:
 
 
 do_experiment(False, 'verse', 'SET', 60, False)
@@ -2302,7 +2307,7 @@ plt.subplots_adjust(bottom=0.15);
 plt.title('distances');
 
 
-# In[29]:
+# In[ ]:
 
 
 do_experiment(False, 'verse', 'LCS', 60, False)
