@@ -94,6 +94,13 @@
 # 
 # The pipeline comes in action in Section [6a](#6a) below: TF features.
 
+# # Caveat
+# 
+# This notebook makes use of a new feature of text-fabric, first present in 2.3.15.
+# Make sure to upgrade first.
+# 
+# ```sudo -H pip3 install --upgrade text-fabric
+
 # In[1]:
 
 
