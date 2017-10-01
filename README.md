@@ -1,3 +1,5 @@
+![etcbc](images/etcbc.png)
+
 # Parallel passages
 Algorithm to determine parallel passages in the Hebrew Bible.
 
@@ -20,6 +22,8 @@ The results of this study are being delivered in several forms, summarized here.
   [Jupyter notebooks](https://github.com/ETCBC/parallels/tree/master/programs)
   Codes the algorithm and applies it using many different
   parameter settings.
+
+![tf](images/tf-small.png)
 
 # Authors
 * [Martijn Naaijer](mailto:m.naaijer@vu.nl) -
