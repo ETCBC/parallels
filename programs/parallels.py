@@ -110,8 +110,8 @@ if 'SCRIPT' not in locals():
     FORCE = True
     FORCE_MATRIX = False
     CORE_NAME = 'bhsa'
-    VERSION= '4b'
-    CORE_MODULE = 'core'
+    NAME = 'parallels'
+    VERSION= 'c'
 
 def stop(good=False):
     if SCRIPT: sys.exit(0 if good else 1)
@@ -414,23 +414,20 @@ from tf.fabric import Fabric
 # The conversion is executed in an environment of directories, so that sources, temp files and
 # results are in convenient places and do not have to be shifted around.
 
-# In[4]:
+# In[5]:
 
 
-module = 'parallels'
-coreModule = CORE_MODULE
 repoBase = os.path.expanduser('~/github/etcbc')
 coreRepo = '{}/{}'.format(repoBase, CORE_NAME)
-thisRepo = '{}/{}'.format(repoBase, module)
+thisRepo = '{}/{}'.format(repoBase, NAME)
 
 coreTf = '{}/tf/{}'.format(coreRepo, VERSION)
 
 allTemp = '{}/_temp'.format(thisRepo)
 thisTemp = '{}/_temp/{}'.format(thisRepo, VERSION)
-thisSave = '{}/{}'.format(thisTemp, module)
+thisTempTf = '{}/tf'.format(thisTemp)
 
 thisTf = '{}/tf/{}'.format(thisRepo, VERSION)
-thisDeliver = '{}/{}'.format(thisTf, module)
 
 
 # # Test
@@ -438,11 +435,11 @@ thisDeliver = '{}/{}'.format(thisTf, module)
 # Check whether this conversion is needed in the first place.
 # Only when run as a script.
 
-# In[5]:
+# In[6]:
 
 
 if SCRIPT:
-    (good, work) = utils.mustRun(None, '{}/.tf/{}.tfx'.format(thisDeliver, 'crossref'), force=FORCE)
+    (good, work) = utils.mustRun(None, '{}/.tf/{}.tfx'.format(thisTf, 'crossref'), force=FORCE)
     if not good: stop(good=False)
     if not work: stop(good=True)
 
@@ -451,14 +448,14 @@ if SCRIPT:
 # 
 # We load the features we need from the BHSA core database.
 
-# In[6]:
+# In[7]:
 
 
 utils.caption(4, 'Load the existing TF dataset')
-TF = Fabric(locations=coreTf, modules=coreModule)
+TF = Fabric(locations=coreTf, modules=[''])
 
 
-# In[7]:
+# In[8]:
 
 
 api = TF.load('''
@@ -475,7 +472,7 @@ api.makeAvailableIn(globals())
 # 
 # There are also parameters that control the reporting of the results, such as file locations.
 
-# In[8]:
+# In[9]:
 
 
 # chunking
@@ -558,7 +555,7 @@ CROSSREF_DB_PATH = '{}/{}'.format(LOCAL_BASE_OUTP, CROSSREF_DB_FILE)
 # 
 # For each experiment we have to adapt the configuration settings to the parameters that define the experiment.
 
-# In[9]:
+# In[10]:
 
 
 def reset_params():
@@ -669,7 +666,7 @@ reset_params()
 # which is a list of lists.
 # Every chunk is a list of word nodes.
 
-# In[10]:
+# In[11]:
 
 
 def chunking(do_chunk):
@@ -754,7 +751,7 @@ def chunking(do_chunk):
 # 
 # Again, we reduce words to their lexemes as for the SET preparation, and we do the same weeding of consonants and empty strings. But then we concatenate everything, separated by a space. So we preserve order and multiplicity.
 
-# In[11]:
+# In[12]:
 
 
 def preparing(do_prepare):
@@ -797,7 +794,7 @@ def preparing(do_prepare):
 # The core is the method `ratio()`, taken from the Levenshtein module. 
 # Remember that the preparation step yielded a space separated string of lexemes, and these strings are compared on the basis of edit distance.
 
-# In[12]:
+# In[13]:
 
 
 def similarity_post():
@@ -935,7 +932,7 @@ def similarity(do_sim):
 # It is possible that a passage is thus added to more than one clique. In that case, those cliques are merged.
 # This may lead to growing very large cliques if ``SIMILARITY_THRESHOLD`` is too low.
 
-# In[13]:
+# In[14]:
 
 
 def key_chunk(i):
@@ -1078,7 +1075,7 @@ def cliqueing(do_clique):
 # ### 5.8.1 Format definitions
 # Here are the definitions for formatting the (HTML) output.
 
-# In[14]:
+# In[15]:
 
 
 # clique lists
@@ -1196,7 +1193,7 @@ legend = '''
 
 # ### 5.8.2 Formatting clique lists
 
-# In[15]:
+# In[16]:
 
 
 def xterse_chunk(i):
@@ -1396,7 +1393,7 @@ def compare_chapters(c1, c2, lb1, lb2):
 # 
 # Here we generate the table of experiments, complete with the coloring according to their assessments.
 
-# In[16]:
+# In[17]:
 
 
 # generate the table of experiments
@@ -1482,7 +1479,7 @@ def gen_html(standalone=False):
 # 
 # Here everything concerning output is brought together.
 
-# In[17]:
+# In[18]:
 
 
 def assess_exp(cf, np, nc, ll):
@@ -1670,7 +1667,7 @@ def printing():
 # 
 # The workflows of doing a single experiment, and then all experiments, are defined.
 
-# In[18]:
+# In[19]:
 
 
 outputs = {}
@@ -1808,7 +1805,7 @@ def show_all_experiments():
 # We need some utility function geared to TF feature production.
 # The `get_verse()` function is simpler, and we do not have to run full experiments.
 
-# In[32]:
+# In[20]:
 
 
 def writeSimTable(similars):
@@ -1865,7 +1862,7 @@ def makeSimTable():
     return similars
 
 
-# In[33]:
+# In[21]:
 
 
 utils.caption(4, 'CROSSREFS: Fetching crossrefs')
@@ -1887,14 +1884,14 @@ else:
     similars = readSimTable()
 
 
-# In[34]:
+# In[22]:
 
 
 if not SCRIPT:
     print('\n'.join(sorted(repr(sim) for sim in similars)[0:10]))
 
 
-# In[35]:
+# In[23]:
 
 
 crossrefData = {}
@@ -1908,7 +1905,7 @@ for (v1, v2, sim, *x) in similars:
 # We generate the feature `crossref`.
 # It is an edge feature between verse nodes, with the similarity as weight.. 
 
-# In[36]:
+# In[24]:
 
 
 utils.caption(4, 'Writing TF parallel features')
@@ -1927,7 +1924,7 @@ metaData = {
     '': provenance,
     newFeature: dict(valueType='int', edgeValues=True),
 }
-TF = Fabric(locations=thisSave, silent=True)
+TF = Fabric(locations=thisTempTf, silent=True)
 TF.save(nodeFeatures=nodeFeatures, edgeFeatures=edgeFeatures, metaData=metaData)
 
 
@@ -1935,30 +1932,30 @@ TF.save(nodeFeatures=nodeFeatures, edgeFeatures=edgeFeatures, metaData=metaData)
 # 
 # Check differences with previous versions.
 
-# In[37]:
+# In[25]:
 
 
-utils.checkDiffs(thisSave, thisDeliver, only={newFeature})
+utils.checkDiffs(thisTempTf, thisTf, only={newFeature})
 
 
 # # Stage: Deliver 
 # 
 # Copy the new TF feature from the temporary location where it has been created to its final destination.
 
-# In[38]:
+# In[26]:
 
 
-utils.deliverDataset(thisSave, thisDeliver)
+utils.deliverDataset(thisTempTf, thisTf)
 
 
 # # Stage: compile TF
 
-# In[39]:
+# In[27]:
 
 
 utils.caption(4, 'Load and compile the new TF features')
 
-TF = Fabric(locations=[coreTf, thisTf], modules=[coreModule, module])
+TF = Fabric(locations=[coreTf, thisTf], modules=[''])
 api = TF.load(newFeature)
 api.makeAvailableIn(globals())
 
@@ -1966,7 +1963,7 @@ api.makeAvailableIn(globals())
 # # Basic test: Genesis 10
 # We list all the crossrefs that the verses of Genesis 10 are involved in.
 
-# In[40]:
+# In[28]:
 
 
 utils.caption(4, 'Test: crossrefs of Genesis 10')
@@ -1981,7 +1978,7 @@ for verseNode in L.d(chapterNode, otype='verse'):
 utils.caption(0, '\t{} start verses'.format(len(startVerses)))
 
 
-# In[41]:
+# In[29]:
 
 
 for (start, crossrefs) in sorted(startVerses.items()):
