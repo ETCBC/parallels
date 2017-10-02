@@ -32,5 +32,5 @@ The results of this study are being delivered in several forms, summarized here.
 * [Dirk Roorda](mailto:dirk.roorda@dans.knaw.nl) -
   [DANS](https://dans.knaw.nl/en/front-page?set_language=en) -
   author of the supporting library
-  [Text-Fabric](https://github.com/ETCBC/text-fabric).
+  [Text-Fabric](https://github.com/Dans-labs/text-fabric).
 
