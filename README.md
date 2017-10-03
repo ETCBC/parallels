@@ -3,7 +3,10 @@
 # Parallel passages
 Algorithm to determine parallel passages in the Hebrew Bible.
 
-Part of the SYNVAR project.
+Part of the
+[SYNVAR](https://www.nwo.nl/en/research-and-results/research-projects/i/30/9930.html)
+project carried out at the 
+[ETCBC](http://etcbc.nl)
 
 # Results
 
@@ -27,7 +30,7 @@ The results of this study are being delivered in several forms, summarized here.
 
 # Authors
 * [Martijn Naaijer](mailto:m.naaijer@vu.nl) -
-  [VU ETCBC](https://www.godgeleerdheid.vu.nl/en/research/institutes-and-centres/eep-talstra-centre-for-bible-and-computer/index.aspx) -
+  [VU ETCBC](http://etcbc.nl) -
   Ph.D. student in Biblical Hebrew
 * [Dirk Roorda](mailto:dirk.roorda@dans.knaw.nl) -
   [DANS](https://dans.knaw.nl/en/front-page?set_language=en) -

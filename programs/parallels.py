@@ -414,7 +414,7 @@ from tf.fabric import Fabric
 # The conversion is executed in an environment of directories, so that sources, temp files and
 # results are in convenient places and do not have to be shifted around.
 
-# In[5]:
+# In[4]:
 
 
 repoBase = os.path.expanduser('~/github/etcbc')
@@ -435,7 +435,7 @@ thisTf = '{}/tf/{}'.format(thisRepo, VERSION)
 # Check whether this conversion is needed in the first place.
 # Only when run as a script.
 
-# In[6]:
+# In[5]:
 
 
 if SCRIPT:
@@ -448,14 +448,14 @@ if SCRIPT:
 # 
 # We load the features we need from the BHSA core database.
 
-# In[7]:
+# In[6]:
 
 
 utils.caption(4, 'Load the existing TF dataset')
 TF = Fabric(locations=coreTf, modules=[''])
 
 
-# In[8]:
+# In[7]:
 
 
 api = TF.load('''
@@ -472,7 +472,7 @@ api.makeAvailableIn(globals())
 # 
 # There are also parameters that control the reporting of the results, such as file locations.
 
-# In[9]:
+# In[8]:
 
 
 # chunking
@@ -515,9 +515,6 @@ VALUE_LABELS = dict(
 # to be used by all versions
 
 # crossrefs for TF
-TF_MATRIX = (False, 'verse', 'LCS')
-TF_SIMILARITY = 75
-TF_FEATURE = 'crossref'
 TF_TABLE = '{}/parallelTable.tsv'.format(allTemp)
 
 # crossrefs for SHEBANQ
@@ -555,7 +552,7 @@ CROSSREF_DB_PATH = '{}/{}'.format(LOCAL_BASE_OUTP, CROSSREF_DB_FILE)
 # 
 # For each experiment we have to adapt the configuration settings to the parameters that define the experiment.
 
-# In[10]:
+# In[9]:
 
 
 def reset_params():
@@ -666,7 +663,7 @@ reset_params()
 # which is a list of lists.
 # Every chunk is a list of word nodes.
 
-# In[11]:
+# In[10]:
 
 
 def chunking(do_chunk):
@@ -751,7 +748,7 @@ def chunking(do_chunk):
 # 
 # Again, we reduce words to their lexemes as for the SET preparation, and we do the same weeding of consonants and empty strings. But then we concatenate everything, separated by a space. So we preserve order and multiplicity.
 
-# In[12]:
+# In[11]:
 
 
 def preparing(do_prepare):
@@ -794,7 +791,7 @@ def preparing(do_prepare):
 # The core is the method `ratio()`, taken from the Levenshtein module. 
 # Remember that the preparation step yielded a space separated string of lexemes, and these strings are compared on the basis of edit distance.
 
-# In[13]:
+# In[12]:
 
 
 def similarity_post():
@@ -932,7 +929,7 @@ def similarity(do_sim):
 # It is possible that a passage is thus added to more than one clique. In that case, those cliques are merged.
 # This may lead to growing very large cliques if ``SIMILARITY_THRESHOLD`` is too low.
 
-# In[14]:
+# In[13]:
 
 
 def key_chunk(i):
@@ -1075,7 +1072,7 @@ def cliqueing(do_clique):
 # ### 5.8.1 Format definitions
 # Here are the definitions for formatting the (HTML) output.
 
-# In[15]:
+# In[14]:
 
 
 # clique lists
@@ -1193,7 +1190,7 @@ legend = '''
 
 # ### 5.8.2 Formatting clique lists
 
-# In[16]:
+# In[15]:
 
 
 def xterse_chunk(i):
@@ -1393,7 +1390,7 @@ def compare_chapters(c1, c2, lb1, lb2):
 # 
 # Here we generate the table of experiments, complete with the coloring according to their assessments.
 
-# In[17]:
+# In[16]:
 
 
 # generate the table of experiments
@@ -1479,7 +1476,7 @@ def gen_html(standalone=False):
 # 
 # Here everything concerning output is brought together.
 
-# In[18]:
+# In[17]:
 
 
 def assess_exp(cf, np, nc, ll):
@@ -1667,7 +1664,7 @@ def printing():
 # 
 # The workflows of doing a single experiment, and then all experiments, are defined.
 
-# In[19]:
+# In[18]:
 
 
 outputs = {}
@@ -1751,10 +1748,15 @@ def show_all_experiments():
 # Based on selected similarity matrices, we produce an
 # edge features between verses, containing weighted links to parallel verses.
 # 
-# The feature to deliver is called `crossref`.
+# The features to deliver are called `crossrefSET` and `crossrefLCS` and `crossref`.
 # 
-# This edge feature is symmetric, and hence redundant.
+# These are edge feature, both are symmetric, and hence redundant.
 # For every node, the *from* and *to* edges are identical.
+# 
+# The `SET` variant consists of set based similarity, the `LCS` one on longest common subsequence
+# similarity.
+# 
+# The `crossref` feature takes the union of both methods, with the average confidence.
 # 
 # The weight is the similarity as percentage integer as it comes from the similarity matrix.
 # 
@@ -1768,13 +1770,14 @@ def show_all_experiments():
 # The matrix computation is expensive.
 # We use fixed settings: 
 # * verse chunks
-# * LCS method, 
-# * matrix threshold 60
-# * similarity threshold 90
+# * `SET` method / `LCS` method, 
+# * matrix threshold 50 / 60
+# * similarity threshold 75
 # 
-# That is, we compute a matrix that contains all pairs with similarity above 60.
+# That is, we compute a matrix that contains all pairs with similarity above 50 or 60
+# depending on whether we do the `SET` method or the `LCS` method.
 # 
-# From that matrix, we only use the similarities above 90.
+# From that matrix, we only use the similarities above 75.
 # This gives us room to play withou recomputing the matrix.
 # 
 # We do not want to redo this computation if it can be avoided.
@@ -1789,12 +1792,12 @@ def show_all_experiments():
 # This is how we proceed:
 # * the matrix computation gives us triples (v1, v2, w), where v1, v2 are verse nodes and d is there similarity
 # * we store the result of the matrix computation in a csv file with the following fields:
-# * v1, v1Ref, v2, v2Ref, d, where v1Ref and v2Ref are verse references,
+# * method, v1, v1Ref, v2, v2Ref, d, where v1Ref and v2Ref are verse references,
 #   each containing exactly 3 fields: book, chapter, verse
-# * NB: the similarity table has only one entry for each pair of similar verses.
-#   If (v1, v2) is in the table, (v2, v1) is not in the table.
+# * NB: the similarity table has only one entry for each pair of similar verses per method.
+#   If (v1, v2) is in the table, (v2, v1) is not in the table, per method.
 # 
-# When we run this notebook fir the pipeline, we check for the presence of this file.
+# When we run this notebook for the pipeline, we check for the presence of this file.
 # If it is present, we uses the vRefs in it to compute the verse nodes that are valid for the
 # version we are going to produce.
 # That gives us all the data we need, so we can skip the matrix computation.
@@ -1805,7 +1808,7 @@ def show_all_experiments():
 # We need some utility function geared to TF feature production.
 # The `get_verse()` function is simpler, and we do not have to run full experiments.
 
-# In[20]:
+# In[19]:
 
 
 def writeSimTable(similars):
@@ -1820,7 +1823,7 @@ def readSimTable():
     with open(TF_TABLE) as h:
         for line in h:
             (
-                v1, v2, sim, 
+                method, v1, v2, sim, 
                 book1, chapter1, verse1,
                 book2, chapter2, verse2,
             ) = line.rstrip('\n').split('\t')
@@ -1831,7 +1834,7 @@ def readSimTable():
             if verseNode2 != int(v2):
                 stats.add(verseNode2)
             similars.append((
-                verseNode1, verseNode2, int(sim), 
+                method, verseNode1, verseNode2, int(sim), 
                 book1, int(chapter1), int(verse1),
                 book2, int(chapter2), int(verse2),
             ))
@@ -1845,24 +1848,30 @@ def readSimTable():
     return similars
 
 def makeSimTable():
-    (do_chunk, do_prep, do_sim, do_clique, skip) = do_params(*TF_MATRIX, TF_SIMILARITY)
-    chunking(do_chunk)
-    preparing(do_prep)
-    similarity(do_sim or FORCE_MATRIX)
     similars = []
-    for ((chunk1, chunk2), sim) in sorted((x, d) for (x, d) in chunk_dist.items() if d >= TF_SIMILARITY):
-        verseNode1 = L.u(chunks[chunk1][0], otype='verse')[0]
-        verseNode2 = L.u(chunks[chunk2][0], otype='verse')[0]
-        simInt = int(round(sim))
-        heading1 = T.sectionFromNode(verseNode1)
-        heading2 = T.sectionFromNode(verseNode2)
-        similars.append((verseNode1, verseNode2, simInt, *heading1, *heading2))
-    utils.caption(0, '\tFound {} similar pairs of verses'.format(len(similars)))
+    for (method, similarityCutoff) in (
+        ('SET', 75),
+        ('LCS', 75),
+    ):
+        (do_chunk, do_prep, do_sim, do_clique, skip) = do_params(False, 'verse', method, similarityCutoff)
+        chunking(do_chunk)
+        preparing(do_prep)
+        similarity(do_sim or FORCE_MATRIX)
+        theseSimilars = []
+        for ((chunk1, chunk2), sim) in sorted((x, d) for (x, d) in chunk_dist.items() if d >= similarityCutoff):
+            verseNode1 = L.u(chunks[chunk1][0], otype='verse')[0]
+            verseNode2 = L.u(chunks[chunk2][0], otype='verse')[0]
+            simInt = int(round(sim))
+            heading1 = T.sectionFromNode(verseNode1)
+            heading2 = T.sectionFromNode(verseNode2)
+            theseSimilars.append((method, verseNode1, verseNode2, simInt, *heading1, *heading2))
+        utils.caption(0, '\tMethod {}: found {} similar pairs of verses'.format(method, len(theseSimilars)))
+        similars.extend(theseSimilars)
     writeSimTable(similars)
     return similars
 
 
-# In[21]:
+# In[20]:
 
 
 utils.caption(4, 'CROSSREFS: Fetching crossrefs')
@@ -1884,20 +1893,28 @@ else:
     similars = readSimTable()
 
 
-# In[22]:
+# In[21]:
 
 
 if not SCRIPT:
-    print('\n'.join(sorted(repr(sim) for sim in similars)[0:10]))
+    print('\n'.join(sorted(repr(sim) for sim in similars if sim[0] == 'LCS')[0:10]))
+    print('\n'.join(sorted(repr(sim) for sim in similars if sim[0] == 'SET')[0:10]))
 
 
-# In[23]:
+# In[22]:
 
 
 crossrefData = {}
-for (v1, v2, sim, *x) in similars:
-    crossrefData.setdefault(v1, {})[v2] = sim
-    crossrefData.setdefault(v2, {})[v1] = sim
+otherMethod = dict(LCS='SET', SET='LCS')
+
+for (method, v1, v2, sim, *x) in similars:
+    crossrefData.setdefault(method, {}).setdefault(v1, {})[v2] = sim
+    crossrefData.setdefault(method, {}).setdefault(v2, {})[v1] = sim
+    omethod = otherMethod[method]
+    otherSim = crossrefData.get(omethod, {}).get(v1, {}).get(v2, None)
+    thisSim = sim if otherSim == None else int(round((otherSim + sim) / 2))
+    crossrefData.setdefault('', {}).setdefault(v1, {})[v2] = thisSim
+    crossrefData.setdefault('', {}).setdefault(v2, {})[v1] = thisSim
 
 
 # # Generating parallels module for Text-Fabric
@@ -1905,65 +1922,70 @@ for (v1, v2, sim, *x) in similars:
 # We generate the feature `crossref`.
 # It is an edge feature between verse nodes, with the similarity as weight.. 
 
-# In[24]:
+# In[23]:
 
 
 utils.caption(4, 'Writing TF parallel features')
 
-newFeature = 'crossref'
+newFeatureStr = 'crossref crossrefSET crossrefLCS'
+newFeatures = newFeatureStr.strip().split()
 
 nodeFeatures = dict()
-edgeFeatures = dict(crossref=crossrefData)
-edgeValues = {newFeature}
+edgeFeatures = dict()
+for method in [''] + list(otherMethod):
+    edgeFeatures['crossref{}'.format(method)] = crossrefData[method]
 
 provenance = dict(
     source='Parallels Module',
     author='BHSA Data: Constantijn Sikkel; Parallels Notebook: Dirk Roorda, Martijn Naaijer',
 )
-metaData = {
-    '': provenance,
-    newFeature: dict(valueType='int', edgeValues=True),
-}
+metaData = {'': provenance}
+for newFeature in newFeatures:
+    metaData[newFeature] = dict(valueType='int', edgeValues=True)
+
 TF = Fabric(locations=thisTempTf, silent=True)
 TF.save(nodeFeatures=nodeFeatures, edgeFeatures=edgeFeatures, metaData=metaData)
 
 
-# # Stage: Diffs
+# # Diffs
 # 
 # Check differences with previous versions.
 
-# In[25]:
+# In[24]:
 
 
-utils.checkDiffs(thisTempTf, thisTf, only={newFeature})
+utils.checkDiffs(thisTempTf, thisTf, only=set(newFeatures))
 
 
-# # Stage: Deliver 
+# # Deliver 
 # 
 # Copy the new TF feature from the temporary location where it has been created to its final destination.
 
-# In[26]:
+# In[25]:
 
 
 utils.deliverDataset(thisTempTf, thisTf)
 
 
-# # Stage: compile TF
+# # Compile TF
 
-# In[27]:
+# In[26]:
 
 
 utils.caption(4, 'Load and compile the new TF features')
 
 TF = Fabric(locations=[coreTf, thisTf], modules=[''])
-api = TF.load(newFeature)
+api = TF.load(newFeatureStr)
 api.makeAvailableIn(globals())
 
 
-# # Basic test: Genesis 10
+# # Examples
+
+# We check the averaged crossref feature.
+
 # We list all the crossrefs that the verses of Genesis 10 are involved in.
 
-# In[28]:
+# In[27]:
 
 
 utils.caption(4, 'Test: crossrefs of Genesis 10')
@@ -1972,22 +1994,19 @@ chapter = ('Genesis', 10)
 chapterNode = T.nodeFromSection(chapter)
 startVerses = {}
 
-for verseNode in L.d(chapterNode, otype='verse'):
-    crossrefs = E.crossref.f(verseNode)
-    if crossrefs: startVerses[T.sectionFromNode(verseNode)] = crossrefs
-utils.caption(0, '\t{} start verses'.format(len(startVerses)))
-
-
-# In[29]:
-
-
-for (start, crossrefs) in sorted(startVerses.items()):
-    utils.caption(0, '\t{} {}:{}'.format(*start), continuation=True)
-    for (target, confidence) in crossrefs:
-        utils.caption(0, '\t{:>20} {:<20} confidende {:>3}%'.format(
-            '-' * 10 + '>',
-            '{} {}:{}'.format(*T.sectionFromNode(target)), confidence,
-        ), continuation=True)
+for method in ['', 'SET', 'LCS']:
+    utils.caption(0, '\tMethod {}'.format(method))
+    for verseNode in L.d(chapterNode, otype='verse'):
+        crossrefs = Es('crossref{}'.format(method)).f(verseNode)
+        if crossrefs: startVerses[T.sectionFromNode(verseNode)] = crossrefs
+    utils.caption(0, '\t\t{} start verses'.format(len(startVerses)))
+    for (start, crossrefs) in sorted(startVerses.items()):
+        utils.caption(0, '\t\t{} {}:{}'.format(*start), continuation=True)
+        for (target, confidence) in crossrefs:
+            utils.caption(0, '\t\t{:>20} {:<20} confidende {:>3}%'.format(
+                '-' * 10 + '>',
+                '{} {}:{}'.format(*T.sectionFromNode(target)), confidence,
+            ))
 
 
 # In[29]:
