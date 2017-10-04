@@ -19,7 +19,7 @@ The results of this study are being delivered in several forms, summarized here.
   [annotations](https://shebanq.ancient-data.org/hebrew/note?version=4b&id=Mnxjcm9zc3JlZg__&tp=txt_tb1&nget=v)
   in **SHEBANQ** showing the paralles as clickable cross-references;
 * **Data module**: a set of 
-  [higher level features](https://github.com/ETCBC/parallels/tree/master/tf/4b)
+  [higher level features](https://github.com/ETCBC/parallels/tree/master/tf)
   in **text-fabric** format, storing the cross-references as features;
 * **Program code**: a
   [Jupyter notebook](https://github.com/ETCBC/parallels/tree/master/programs/parallels.ipynb)
