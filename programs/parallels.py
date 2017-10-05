@@ -109,6 +109,11 @@ if 'SCRIPT' not in locals():
     SCRIPT = False
     FORCE = True
     FORCE_MATRIX = False
+    LANG_FEATURE = 'language'
+    OCC_FEATURE = 'g_cons'
+    LEX_FEATURE = 'lex'
+    TEXT_FEATURE = 'g_word_utf8'
+    TRAILER_FEATURE = 'suffix'
     CORE_NAME = 'bhsa'
     NAME = 'parallels'
     VERSION= 'c'
@@ -460,9 +465,13 @@ TF = Fabric(locations=coreTf, modules=[''])
 
 api = TF.load('''
     otype
-    lex g_word_utf8 trailer_utf8
-    book chapter verse label number
-''')
+    {} {} {}
+    book chapter verse number
+'''.format(
+    LEX_FEATURE,
+    TEXT_FEATURE,
+    TRAILER_FEATURE,
+))
 api.makeAvailableIn(globals())
 
 
@@ -760,13 +769,13 @@ def preparing(do_prepare):
     chunk_data = []
     if SIMILARITY_METHOD == 'SET':
         for c in chunks:
-            words = (EXCLUDED_PAT.sub('', F.lex.v(w).replace('<', 'O')) for w in c)
+            words = (EXCLUDED_PAT.sub('', Fs(LEX_FEATURE).v(w).replace('<', 'O')) for w in c)
             clean_words = (w for w in words if w != '')
             this_data = frozenset(clean_words)
             chunk_data.append(this_data)
     else:
         for c in chunks:
-            words = (EXCLUDED_PAT.sub('', F.lex.v(w).replace('<', 'O')) for w in c)
+            words = (EXCLUDED_PAT.sub('', Fs(LEX_FEATURE).v(w).replace('<', 'O')) for w in c)
             clean_words = (w for w in words if w != '')
             this_data = ' '.join(clean_words)
             chunk_data.append(this_data)
@@ -1219,7 +1228,7 @@ def verse_chunk(i):
     book = F.book.v(bk)
     chapter = F.chapter.v(ch)
     verse = F.verse.v(vs)
-    text = ''.join('{}{}'.format(F.g_word_utf8.v(w), F.trailer_utf8.v(w)) for w in L.d(vs, otype='word'))
+    text = ''.join('{}{}'.format(Fs(TEXT_FEATURE).v(w), Fs(TRAILER_FEATURE).v(w)) for w in L.d(vs, otype='word'))
     verse_label = '<td class="vl">{} {}:{}</td>'.format(book, chapter, verse)
     htext = '{}<td class="ht">{}</td>'.format(verse_label, text)
     return '<tr class="ht">{}</tr>'.format(htext)
@@ -1295,7 +1304,7 @@ def print_clique_fine(ii):
         book = F.book.v(L.u(fword, otype='book')[0])
         chapter = F.chapter.v(L.u(fword, otype='chapter')[0])
         verse = F.verse.v(L.u(fword, otype='verse')[0])
-        text = ''.join('{}{}'.format(F.g_word_utf8.v(w), F.trailer_utf8.v(w)) for w in chunk)
+        text = ''.join('{}{}'.format(Fs(TEXT_FEATURE).v(w), Fs(TRAILER_FEATURE).v(w)) for w in chunk)
         condensed.setdefault(text, []).append((book, chapter, verse))
     result = []
     nv = len(condensed.items())
@@ -1321,7 +1330,7 @@ def print_clique_coarse(ii):
         book = F.book.v(L.u(fword, otype='book')[0])
         chapter = F.chapter.v(L.u(fword, otype='chapter')[0])
         verse = F.verse.v(L.u(fword, otype='verse')[0])
-        text = ''.join('{}{}'.format(F.g_word_utf8.v(w), F.trailer_utf8.v(w)) for w in chunk)
+        text = ''.join('{}{}'.format(Fs(TEXT_FEATURE).v(w), Fs(TRAILER_FEATURE).v(w)) for w in chunk)
         condensed.setdefault(text, []).append((book, chapter, verse))
     result = []
     nv = len(condensed.items())
@@ -1368,7 +1377,7 @@ def lines_chapter(c):
     lines = []
     for v in L.d(c, otype='verse'):
         vl = F.verse.v(v)
-        text = ''.join('{}{}'.format(F.g_word_utf8.v(w), F.trailer_utf8.v(w)) for w in L.d(v, otype='word'))
+        text = ''.join('{}{}'.format(Fs(TEXT_FEATURE).v(w), Fs(TRAILER_FEATURE).v(w)) for w in L.d(v, otype='word'))
         lines.append('{} {}'.format(vl, text.replace('\n', ' ')))
     return lines
 
@@ -1937,6 +1946,8 @@ for method in [''] + list(otherMethod):
 
 provenance = dict(
     source='Parallels Module',
+    coreData='BHSA',
+    coreVersion=VERSION,
     author='BHSA Data: Constantijn Sikkel; Parallels Notebook: Dirk Roorda, Martijn Naaijer',
 )
 metaData = {'': provenance}
