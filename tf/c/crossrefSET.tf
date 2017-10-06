@@ -2,11 +2,11 @@
 @edgeValues
 @author=BHSA Data: Constantijn Sikkel; Parallels Notebook: Dirk Roorda, Martijn Naaijer
 @coreData=BHSA
-@coreVersion=c
+@coreVersion=_temp
 @source=Parallels Module
 @valueType=int
 @writtenBy=Text-Fabric
-@dateWritten=2017-10-05T12:04:12Z
+@dateWritten=2017-10-06T06:44:47Z
 
 1413798	1413916	80
 1413803	1413806	77
