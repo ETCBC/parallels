@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/104842865.svg)](https://zenodo.org/badge/latestdoi/104842865)
 ![etcbc](images/etcbc.png)
 
 # Parallel passages
