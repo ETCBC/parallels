@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# <a href="https://github.com/ETCBC/text-fabric/wiki" target="_blank"><img align="right" src="images/tf-small.png"/></a>
+# <a href="https://github.com/Dans-labs/text-fabric/wiki" target="_blank"><img align="right" src="images/tf-small.png"/></a>
 # 
 # # Parallel Passages in the MT
 # 
