@@ -28,6 +28,7 @@ The results of this study are being delivered in several forms, summarized here.
   parameter settings.
 
 ![tf](images/tf-small.png)
+![dans](programs/images/dans.png)
 
 # Authors
 * [Martijn Naaijer](mailto:m.naaijer@vu.nl) -
