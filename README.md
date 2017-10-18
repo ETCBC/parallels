@@ -18,7 +18,7 @@ The results of this study are being delivered in several forms, summarized here.
   showing the parallels involved in 2 Kings 19-26; 
 * **Annotations**: a set of
   [annotations](https://shebanq.ancient-data.org/hebrew/note?version=4b&id=Mnxjcm9zc3JlZg__&tp=txt_tb1&nget=v)
-  in **SHEBANQ** showing the paralles as clickable cross-references;
+  in **SHEBANQ** showing the parallels as clickable cross-references;
 * **Data module**: a set of 
   [higher level features](https://github.com/ETCBC/parallels/tree/master/tf)
   in **text-fabric** format, storing the cross-references as features;
