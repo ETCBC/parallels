@@ -1,5 +1,5 @@
 [![DOI](https://zenodo.org/badge/104842865.svg)](https://zenodo.org/badge/latestdoi/104842865)
-![etcbc](images/etcbc.png)
+[![etcbc](images/etcbc.png)](http://www.etcbc.nl)
 
 # Parallel passages
 Algorithm to determine parallel passages in the Hebrew Bible.
@@ -28,7 +28,7 @@ The results of this study are being delivered in several forms, summarized here.
   parameter settings.
 
 ![tf](images/tf-small.png)
-![dans](programs/images/dans.png)
+[![dans](images/dans.png)](https://www.dans.knaw.nl)
 
 # Authors
 * [Martijn Naaijer](mailto:m.naaijer@vu.nl) -
