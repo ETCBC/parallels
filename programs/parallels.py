@@ -1,7 +1,10 @@
 
 # coding: utf-8
 
-# <a href="https://github.com/Dans-labs/text-fabric/wiki" target="_blank"><img align="right" src="images/tf-small.png"/></a>
+# <img align="right" src="images/dans-small.png"/>
+# <img align="right" src="images/tf-small.png"/>
+# <img align="right" src="images/etcbc.png"/>
+# 
 # 
 # # Parallel Passages in the MT
 # 
@@ -26,10 +29,15 @@
 # It contains a working program to carry out the computations needed to obtain the results reported here.
 # 
 # You can download this notebook and run it on your computer, provided you have
-# [LAF-Fabric](http://laf-fabric.readthedocs.org/en/latest/texts/welcome.html) installed.
-# An easy way to do that is describe [here](laf-fabric.readthedocs.org/texts/getting-started.html).
+# [Text-Fabric](https://github.com/Dans-labs/text-fabric) installed.
 # 
-# It is a pity that we cannot compare our results with the Accordance resource mentioned above, since that resource has not been published in an accessible manner. We also do not have the information how this resource has been constructed on the basis of the raw data. In contrast with that, we present our results in a completely reproducible manner. This notebook itself can serve as the method of replication, provided you have obtained the necessary resources. See [SHEBANQ sources](https://shebanq.ancient-data.org/sources), which are all Open Access.
+# It is a pity that we cannot compare our results with the Accordance resource mentioned above,
+# since that resource has not been published in an accessible manner.
+# We also do not have the information how this resource has been constructed on the basis of the raw data.
+# In contrast with that, we present our results in a completely reproducible manner.
+# This notebook itself can serve as the method of replication,
+# provided you have obtained the necessary resources. 
+# See [sources](https://github.com/ETCBC/shebanq/wiki/Sources), which are all Open Access.
 # 
 # ## 0.4 What are parallel passages?
 # The notion of *parallel passage* is not a simple, straightforward one.
@@ -38,7 +46,8 @@
 # or even in similarities in text structure.
 # 
 # In this notebook we do select a straightforward notion of parallel, based on lexical content only.
-# We investigate two measures of similarity, one that ignores word order completely, and one that takes word order into account.
+# We investigate two measures of similarity, one that ignores word order completely,
+# and one that takes word order into account.
 # 
 # Two kinds of short-comings of this approach must be mentioned:
 # 
@@ -47,17 +56,20 @@
 # 
 # For a more full treatment of parallel passages, see
 # 
-# Wido Th. van Peursen and Eep Talstra.
-#   Computer-Assisted Analysis of Parallel Texts in the Bible - 
-#   The Case of 2 Kings xviii-xix and its Parallels in Isaiah and Chronicles.
-#   Vetus Testamentum</i> 57, pp. 45-72.
-#   2007, Brill, Leiden.
+# **Wido Th. van Peursen and Eep Talstra**:
+# Computer-Assisted Analysis of Parallel Texts in the Bible - 
+# The Case of 2 Kings xviii-xix and its Parallels in Isaiah and Chronicles.
+# *Vetus Testamentum* 57, pp. 45-72.
+# 2007, Brill, Leiden.
 #   
-# Note that our method fails to identify any parallels with Chronica_II 32. Van Peursen and Talstra state about this chapter and 2 Kings 18: 
+# Note that our method fails to identify any parallels with Chronica_II 32.
+# Van Peursen and Talstra state about this chapter and 2 Kings 18: 
 # 
-# > These chapters differ so much, that it is sometimes impossible to establish which verses should be considered parallel.
+# > These chapters differ so much, that it is sometimes impossible to establish
+# which verses should be considered parallel.
 # 
-# In this notebook we produce a set of *cliques*, a clique being a set of passages that are *quite* similar, based on lexical information.
+# In this notebook we produce a set of *cliques*, 
+# a clique being a set of passages that are *quite* similar, based on lexical information.
 # 
 # 
 # ## 0.5 Authors
@@ -69,7 +81,7 @@
 # 
 # ## 0.6 Status
 # 
-# * **modified: 2017-09-28** Is now part of a pipeline for transferring data from the ETCBC to TF.
+# * **modified: 2017-09-28** Is now part of a pipeline for transferring data from the ETCBC to Text-Fabric.
 # * **modified: 2016-03-03** Added experiments based on chapter chunks and lower similarities.
 # 
 # 165 experiments have been carried out, of which 18 with promising results.
@@ -113,10 +125,10 @@ if 'SCRIPT' not in locals():
     OCC_FEATURE = 'g_cons'
     LEX_FEATURE = 'lex'
     TEXT_FEATURE = 'g_word_utf8'
-    TRAILER_FEATURE = 'suffix'
+    TRAILER_FEATURE = 'trailer_utf8'
     CORE_NAME = 'bhsa'
     NAME = 'parallels'
-    VERSION= 'c'
+    VERSION= '4b'
 
 def stop(good=False):
     if SCRIPT: sys.exit(0 if good else 1)
@@ -334,7 +346,7 @@ if False and not SCRIPT: HTML(other_exps)
 # We prepare the chunks for the application of the chosen method of similarity computation (``SET`` or ``LCS``).
 # 
 # In both cases we reduce the text to a sequence of transliterated consonantal *lexemes* without disambiguation.
-# In fact, we go one step further: we remove the consonants (alef, wav, yod) that are often silent.
+# In fact, we go one step further: we remove the consonants (aleph, wav, yod) that are often silent.
 # 
 # For ``SET``, we represent each chunk as the set of its reduced lexemes.
 # 
@@ -362,12 +374,12 @@ if False and not SCRIPT: HTML(other_exps)
 # They are in the same clique, because there is a path of pairwise similar members leading from the one chunk to the other.
 # 
 # ### 4.3.1 Organizing the cliques
-# In order to accomodate cases where there are many corresponding verses in corresponding chapters, we produce
+# In order to handle cases where there are many corresponding verses in corresponding chapters, we produce
 # chapter-by-chapter diffs in the following way.
 # 
 # We make a list of all chapters that are involved in cliques.
 # This yields a list of chapter cliques.
-# For all *binary* chapters cliques, we generate a colorful diff rendering (as html) for the complete two chapters.
+# For all *binary* chapters cliques, we generate a colorful diff rendering (as HTML) for the complete two chapters.
 # 
 # We only do this for *promising* experiments.
 # 
@@ -383,10 +395,10 @@ if False and not SCRIPT: HTML(other_exps)
 # On the other hand, when the ``SIMILARITY_THRESHOLD`` is too high, you might miss a lot of correspondences,
 # especially when chunks are large, or when we have fixed-size chunks that are out of phase.
 # 
-# We deem the results of experiments based on a partioning into fixed length chunks as unsatisfactory, although it
+# We deem the results of experiments based on a partitioning into fixed length chunks as unsatisfactory, although it
 # might be interesting to inspect what exactly the damage is.
 # 
-# At the moment, we have not yet analysed the relative merits of the similarity methods ``SET`` and ``LCS``.
+# At the moment, we have not yet analyzed the relative merits of the similarity methods ``SET`` and ``LCS``.
 
 # # 5. Implementation
 # 
@@ -403,7 +415,7 @@ if not SCRIPT:
     from IPython.display import HTML, display
     import matplotlib.pyplot as plt
 
-get_ipython().magic('matplotlib inline')
+get_ipython().run_line_magic('matplotlib', 'inline')
 PICKLE_PROTOCOL = 3
 
 # sudo -H pip3 install python-Levenshtein
@@ -433,6 +445,15 @@ thisTemp = '{}/_temp/{}'.format(thisRepo, VERSION)
 thisTempTf = '{}/tf'.format(thisTemp)
 
 thisTf = '{}/tf/{}'.format(thisRepo, VERSION)
+thisNotes = '{}/shebanq/{}'.format(thisRepo, VERSION)
+
+
+# In[5]:
+
+
+notesFile = 'crossrefNotes.csv'
+if not os.path.exists(thisNotes):
+    os.makedirs(thisNotes)
 
 
 # # Test
@@ -440,7 +461,7 @@ thisTf = '{}/tf/{}'.format(thisRepo, VERSION)
 # Check whether this conversion is needed in the first place.
 # Only when run as a script.
 
-# In[5]:
+# In[6]:
 
 
 if SCRIPT:
@@ -453,14 +474,14 @@ if SCRIPT:
 # 
 # We load the features we need from the BHSA core database.
 
-# In[6]:
+# In[7]:
 
 
 utils.caption(4, 'Load the existing TF dataset')
 TF = Fabric(locations=coreTf, modules=[''])
 
 
-# In[7]:
+# In[8]:
 
 
 api = TF.load('''
@@ -481,7 +502,7 @@ api.makeAvailableIn(globals())
 # 
 # There are also parameters that control the reporting of the results, such as file locations.
 
-# In[8]:
+# In[9]:
 
 
 # chunking
@@ -561,7 +582,7 @@ CROSSREF_DB_PATH = '{}/{}'.format(LOCAL_BASE_OUTP, CROSSREF_DB_FILE)
 # 
 # For each experiment we have to adapt the configuration settings to the parameters that define the experiment.
 
-# In[9]:
+# In[10]:
 
 
 def reset_params():
@@ -672,7 +693,7 @@ reset_params()
 # which is a list of lists.
 # Every chunk is a list of word nodes.
 
-# In[10]:
+# In[11]:
 
 
 def chunking(do_chunk):
@@ -748,7 +769,7 @@ def chunking(do_chunk):
 # 
 # ### 5.5.1 Preparing for SET comparison
 # 
-# We reduce words to their lexemes (dictionary entries) and from them we also remove the alef, waw, and yods.
+# We reduce words to their lexemes (dictionary entries) and from them we also remove the aleph, wav, and yods.
 # The lexeme feature also contains characters (`/ [ =`) to disambiguate homonyms. We also remove these.
 # If we end up with something empty, we skip it.
 # Eventually, we take the set of these reduced word lexemes, so that we effectively ignore order and multiplicity of words. In other words: the resulting similarity will be based on lexeme content.
@@ -757,7 +778,7 @@ def chunking(do_chunk):
 # 
 # Again, we reduce words to their lexemes as for the SET preparation, and we do the same weeding of consonants and empty strings. But then we concatenate everything, separated by a space. So we preserve order and multiplicity.
 
-# In[11]:
+# In[12]:
 
 
 def preparing(do_prepare):
@@ -786,7 +807,7 @@ def preparing(do_prepare):
 # 
 # Here we implement our two ways of similarity computation.
 # Both need a massive amount of work, especially for experiments with many small chunks.
-# The similarities are stored in a ``matrix``, a data structure that stores a similarity number for each pair of chunk indices.
+# The similarities are stored in a ``matrix``, a data structure that stores a similarity number for each pair of chunk indexes.
 # Most pair of chunks will be dissimilar. In order to save space, we do not store similarities below a certain threshold.
 # We store matrices for re-use.
 # 
@@ -800,7 +821,7 @@ def preparing(do_prepare):
 # The core is the method `ratio()`, taken from the Levenshtein module. 
 # Remember that the preparation step yielded a space separated string of lexemes, and these strings are compared on the basis of edit distance.
 
-# In[12]:
+# In[13]:
 
 
 def similarity_post():
@@ -922,7 +943,7 @@ def similarity(do_sim):
 # similar pairs out of it. From these pairs we lump together our cliques.
 # 
 # Our list of experiments will select various values for ``SIMILARITY_THRESHOLD``, which will result
-# in various types of cliqueing behaviour.
+# in various types of clique behavior.
 # 
 # We store computed cliques for re-use.
 # 
@@ -938,7 +959,7 @@ def similarity(do_sim):
 # It is possible that a passage is thus added to more than one clique. In that case, those cliques are merged.
 # This may lead to growing very large cliques if ``SIMILARITY_THRESHOLD`` is too low.
 
-# In[13]:
+# In[14]:
 
 
 def key_chunk(i):
@@ -1081,7 +1102,7 @@ def cliqueing(do_clique):
 # ### 5.8.1 Format definitions
 # Here are the definitions for formatting the (HTML) output.
 
-# In[14]:
+# In[15]:
 
 
 # clique lists
@@ -1199,7 +1220,7 @@ legend = '''
 
 # ### 5.8.2 Formatting clique lists
 
-# In[15]:
+# In[16]:
 
 
 def xterse_chunk(i):
@@ -1399,7 +1420,7 @@ def compare_chapters(c1, c2, lb1, lb2):
 # 
 # Here we generate the table of experiments, complete with the coloring according to their assessments.
 
-# In[16]:
+# In[17]:
 
 
 # generate the table of experiments
@@ -1485,7 +1506,7 @@ def gen_html(standalone=False):
 # 
 # Here everything concerning output is brought together.
 
-# In[17]:
+# In[18]:
 
 
 def assess_exp(cf, np, nc, ll):
@@ -1673,7 +1694,7 @@ def printing():
 # 
 # The workflows of doing a single experiment, and then all experiments, are defined.
 
-# In[18]:
+# In[19]:
 
 
 outputs = {}
@@ -1771,7 +1792,7 @@ def show_all_experiments():
 # 
 # ## Discussion
 # We only produce the results of the similarity computation (the matrix), we do not do the cliqueing.
-# There are many ways to do cliqueing, and that can easily be done by users of the data, once the
+# There are many ways to make cliques, and that can easily be done by users of the data, once the
 # matrix results are in place.
 # We also do not produce pretty outputs, chapter diffs and other goodies.
 # Just the raw similarity data.
@@ -1787,7 +1808,7 @@ def show_all_experiments():
 # depending on whether we do the `SET` method or the `LCS` method.
 # 
 # From that matrix, we only use the similarities above 75.
-# This gives us room to play withou recomputing the matrix.
+# This gives us room to play without recomputing the matrix.
 # 
 # We do not want to redo this computation if it can be avoided.
 # 
@@ -1812,12 +1833,12 @@ def show_all_experiments():
 # That gives us all the data we need, so we can skip the matrix computation.
 # 
 # If the file is not present, we have to compute the matrix.
-# There will be a parameter, called FORCE_MATRIX, which can enforce a recomputation of the matrix.
+# There will be a parameter, called FORCE_MATRIX, which can enforce a re-computation of the matrix.
 
 # We need some utility function geared to TF feature production.
 # The `get_verse()` function is simpler, and we do not have to run full experiments.
 
-# In[19]:
+# In[20]:
 
 
 def writeSimTable(similars):
@@ -1880,7 +1901,7 @@ def makeSimTable():
     return similars
 
 
-# In[20]:
+# In[21]:
 
 
 utils.caption(4, 'CROSSREFS: Fetching crossrefs')
@@ -1902,7 +1923,7 @@ else:
     similars = readSimTable()
 
 
-# In[21]:
+# In[22]:
 
 
 if not SCRIPT:
@@ -1910,7 +1931,7 @@ if not SCRIPT:
     print('\n'.join(sorted(repr(sim) for sim in similars if sim[0] == 'SET')[0:10]))
 
 
-# In[22]:
+# In[23]:
 
 
 crossrefData = {}
@@ -1929,9 +1950,9 @@ for (method, v1, v2, sim, *x) in similars:
 # # Generating parallels module for Text-Fabric
 # 
 # We generate the feature `crossref`.
-# It is an edge feature between verse nodes, with the similarity as weight.. 
+# It is an edge feature between verse nodes, with the similarity as weight.
 
-# In[23]:
+# In[24]:
 
 
 utils.caption(4, 'Writing TF parallel features')
@@ -1958,11 +1979,111 @@ TF = Fabric(locations=thisTempTf, silent=True)
 TF.save(nodeFeatures=nodeFeatures, edgeFeatures=edgeFeatures, metaData=metaData)
 
 
+# # Generating simple crossref notes for SHEBANQ
+# We base them on the average of both methods, we supply the confidence.
+
+# In[25]:
+
+
+MAX_REFS = 10
+
+def condenseX(vlabels):
+    cnd = []
+    (cur_b, cur_c) = (None, None)
+    for (b, c, v, d) in vlabels:
+        sep = '' if cur_b == None else '. ' if cur_b != b else '; ' if cur_c != c else ', '
+        show_b = b+' ' if cur_b != b else ''
+        show_c = str(c)+':' if cur_b != b or cur_c != c else ''
+        (cur_b, cur_c) = (b, c)
+        cnd.append('{}[{}{}{}{}]'.format(sep, show_b, show_c, v, d))
+    return cnd
+
+crossrefBase = crossrefData['']
+
+refsGrouped = []
+nCrossrefs = 0
+for (x, refs) in crossrefBase.items():
+    vys = sorted(refs.keys())
+    nCrossrefs += len(vys)
+    currefs = []
+    for vy in vys:
+        nr = len(currefs)
+        if nr == MAX_REFS:
+            refsGrouped.append((x, tuple(currefs)))
+            currefs = []            
+        currefs.append(vy)
+    if len(currefs):
+        refsGrouped.append((x, tuple(currefs)))
+        
+refsCompiled = []
+for (x, vys) in refsGrouped:
+    vysd = [(*T.sectionFromNode(vy, lang='la'), ' ~{}%'.format(crossrefBase[x][vy])) for vy in vys]
+    vysl = condenseX(vysd)
+    these_refs = []
+    for (i, vy) in enumerate(vysd):
+        link_text = vysl[i]
+        link_target = '{} {}:{}'.format(vy[0], vy[1], vy[2])
+        these_refs.append('{}({})'.format(link_text, link_target))
+    refsCompiled.append((x, ' '.join(these_refs)))
+utils.caption(0, 'Compiled {} cross references into {} notes'.format(nCrossrefs, len(refsCompiled)))
+
+
+# In[27]:
+
+
+sfields = '''
+    version
+    book
+    chapter
+    verse
+    clause_atom
+    is_shared
+    is_published
+    status
+    keywords
+    ntext
+'''.strip().split()
+
+sfields_fmt = ('{}\t' * (len(sfields) - 1)) + '{}\n' 
+
+ofs = open('{}/{}'.format(thisNotes, notesFile), 'w')
+ofs.write('{}\n'.format('\t'.join(sfields)))
+
+for (v, refs) in refsCompiled:
+    firstWord = L.d(v, otype='word')[0]
+    ca = F.number.v(L.u(firstWord, otype='clause_atom')[0])
+    (bk, ch, vs) = T.sectionFromNode(v, lang='la')
+    ofs.write(sfields_fmt.format(
+        VERSION,
+        bk,
+        ch,
+        vs,
+        ca,
+        'T',
+        '',
+        CROSSREF_STATUS,
+        CROSSREF_KEYWORD,
+        refs,
+    ))
+
+utils.caption(0, 'Generated {} notes'.format(len(refsCompiled)))
+ofs.close()
+
+
+# In[28]:
+
+
+if not SCRIPT:
+    utils.caption(4, 'Writing TF parallel features')
+    for (v, ws) in crossrefData[''].items():
+        print(v, ws)
+
+
 # # Diffs
 # 
 # Check differences with previous versions.
 
-# In[24]:
+# In[29]:
 
 
 utils.checkDiffs(thisTempTf, thisTf, only=set(newFeatures))
@@ -1972,7 +2093,7 @@ utils.checkDiffs(thisTempTf, thisTf, only=set(newFeatures))
 # 
 # Copy the new TF feature from the temporary location where it has been created to its final destination.
 
-# In[25]:
+# In[30]:
 
 
 utils.deliverDataset(thisTempTf, thisTf)
@@ -1980,7 +2101,7 @@ utils.deliverDataset(thisTempTf, thisTf)
 
 # # Compile TF
 
-# In[26]:
+# In[31]:
 
 
 utils.caption(4, 'Load and compile the new TF features')
@@ -1992,11 +2113,9 @@ api.makeAvailableIn(globals())
 
 # # Examples
 
-# We check the averaged crossref feature.
-
 # We list all the crossrefs that the verses of Genesis 10 are involved in.
 
-# In[27]:
+# In[32]:
 
 
 utils.caption(4, 'Test: crossrefs of Genesis 10')
@@ -2028,6 +2147,12 @@ if SCRIPT:
 
 
 # # 6b. SHEBANQ annotations
+# 
+# The code below generates extensive crossref notes for `4b`, including clique overviews and chapter diffs.
+# But since the pipeline in October 2017, we generate much simpler notes.
+# That code is above.
+# 
+# We retain this code here, in case we want to expand the crossref functionality in the future again.
 # 
 # Based on selected similarity matrices, we produce a SHEBANQ note set of cross references for similar passages.
 
@@ -2294,7 +2419,7 @@ def crossrefs2shebanq():
 # 
 # If none of the matrices and cliques have been computed before on the system where this runs, doing all experiments might take multiple hours (4-8).
 
-# In[31]:
+# In[ ]:
 
 
 reset_params()
@@ -2359,10 +2484,4 @@ plt.xticks(x, x, rotation='vertical')
 plt.margins(0.2)
 plt.subplots_adjust(bottom=0.15);
 plt.title('distances');
-
-
-# In[ ]:
-
-
-
 
