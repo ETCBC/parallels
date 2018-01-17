@@ -121,7 +121,7 @@ if 'SCRIPT' not in locals():
     SCRIPT = False
     FORCE = True
     FORCE_MATRIX = False
-    LANG_FEATURE = 'language'
+    LANG_FEATURE = 'languageISO'
     OCC_FEATURE = 'g_cons'
     LEX_FEATURE = 'lex'
     TEXT_FEATURE = 'g_word_utf8'
