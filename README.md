@@ -22,8 +22,10 @@ The results of this study are being delivered in several forms, summarized here.
 * **Data module**: a set of 
   [higher level features](https://github.com/ETCBC/parallels/tree/master/tf)
   in **text-fabric** format, storing the cross-references as features;
+* **Documentation**: a
+  [Jupyter notebook](https://nbviewer.jupyter.org/github/etcbc/parallels/blob/master/programs/parallels.ipynb)
 * **Program code**: a
-  [Jupyter notebook](https://github.com/ETCBC/parallels/tree/master/programs/parallels.ipynb)
+  [Jupyter notebook](https://github.com/ETCBC/parallels/tree/master/programs)
   Codes the algorithm and applies it using many different
   parameter settings.
 
