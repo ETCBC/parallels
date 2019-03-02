@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 # coding: utf-8
 
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
@@ -2488,4 +2488,10 @@ plt.xticks(x, x, rotation='vertical')
 plt.margins(0.2)
 plt.subplots_adjust(bottom=0.15);
 plt.title('distances');
+
+
+# In[ ]:
+
+
+
 
