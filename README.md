@@ -1,3 +1,4 @@
+[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/ETCBC/parallels/)](https://archive.softwareheritage.org/browse/origin/https://github.com/ETCBC/parallels/)
 [![DOI](https://zenodo.org/badge/104842865.svg)](https://zenodo.org/badge/latestdoi/104842865)
 [![etcbc](images/etcbc.png)](http://www.etcbc.nl)
 
