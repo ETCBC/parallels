@@ -1,8 +1,27 @@
+# Parallel passages
+
 [![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/ETCBC/parallels/)](https://archive.softwareheritage.org/browse/origin/https://github.com/ETCBC/parallels/)
 [![DOI](https://zenodo.org/badge/104842865.svg)](https://zenodo.org/badge/latestdoi/104842865)
 [![etcbc](images/etcbc.png)](http://www.etcbc.nl)
+[![dans](images/dans.png)](https://dans.knaw.nl/en)
 
-# Parallel passages
+### BHSA Family
+
+* [bhsa](https://github.com/etcbc/bhsa) Core data and feature documentation
+* [phono](https://github.com/etcbc/phono) Phonological representation of Hebrew words
+* [parallels](https://github.com/etcbc/parallels) Links between similar verses
+* [valence](https://github.com/etcbc/valence) Verbal valence for all occurrences
+  of some verbs
+* [trees](https://github.com/etcbc/trees) Tree structures for all sentences
+* [bridging](https://github.com/etcbc/bridging) Open Scriptures morphology
+  ported to the BHSA
+* [pipeline](https://github.com/etcbc/pipeline) Generate the BHSA and SHEBANQ
+  from internal ETCBC data files
+* [shebanq](https://github.com/etcbc/shebanq) Engine of the
+  [shebanq](https://shebanq.ancient-data.org) website
+
+## About
+
 Algorithm to determine parallel passages in the Hebrew Bible.
 
 Part of the
@@ -10,7 +29,7 @@ Part of the
 project carried out at the 
 [ETCBC](http://etcbc.nl)
 
-# Results
+## Results
 
 The results of this study are being delivered in several forms, summarized here.
 
@@ -33,7 +52,7 @@ The results of this study are being delivered in several forms, summarized here.
 ![tf](images/tf-small.png)
 [![dans](images/dans.png)](https://www.dans.knaw.nl)
 
-# Authors
+## Authors
 * [Martijn Naaijer](mailto:m.naaijer@vu.nl) -
   [VU ETCBC](http://etcbc.nl) -
   Ph.D. student in Biblical Hebrew
