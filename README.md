@@ -2,8 +2,10 @@
 
 [![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/ETCBC/parallels/)](https://archive.softwareheritage.org/browse/origin/https://github.com/ETCBC/parallels/)
 [![DOI](https://zenodo.org/badge/104842865.svg)](https://zenodo.org/badge/latestdoi/104842865)
+
 [![etcbc](images/etcbc.png)](http://www.etcbc.nl)
 [![dans](images/dans.png)](https://dans.knaw.nl/en)
+[![tf](programs/images/tf-small.png)](https://annotation.github.io/text-fabric/tf)
 
 ### BHSA Family
 
@@ -48,9 +50,6 @@ The results of this study are being delivered in several forms, summarized here.
   [Jupyter notebook](https://github.com/ETCBC/parallels/tree/master/programs)
   Codes the algorithm and applies it using many different
   parameter settings.
-
-![tf](images/tf-small.png)
-[![dans](images/dans.png)](https://www.dans.knaw.nl)
 
 ## Authors
 * [Martijn Naaijer](mailto:m.naaijer@vu.nl) -
