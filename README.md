@@ -2,6 +2,7 @@
 
 [![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/ETCBC/parallels/)](https://archive.softwareheritage.org/browse/origin/https://github.com/ETCBC/parallels/)
 [![DOI](https://zenodo.org/badge/104842865.svg)](https://zenodo.org/badge/latestdoi/104842865)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 [![etcbc](images/etcbc.png)](http://www.etcbc.nl)
 [![dans](images/dans.png)](https://dans.knaw.nl/en)
@@ -21,6 +22,16 @@
   from internal ETCBC data files
 * [shebanq](https://github.com/etcbc/shebanq) Engine of the
   [shebanq](https://shebanq.ancient-data.org) website
+
+### Extended family
+
+* [dss](https://github.com/etcbc/dss) Dead Sea Scrolls
+* [extrabiblical](https://github.com/etcbc/extrabiblical)
+  Extra-biblical writings from ETCBC-encoded texts
+* [peshitta](https://github.com/etcbc/peshitta)
+  Syriac translation of the Hebrew Bible
+* [syrnt](https://github.com/etcbc/syrnt)
+  Syriac translation of the New Testament
 
 ## About
 
@@ -55,8 +66,10 @@ The results of this study are being delivered in several forms, summarized here.
 * [Martijn Naaijer](mailto:m.naaijer@vu.nl) -
   [VU ETCBC](http://etcbc.nl) -
   Ph.D. student in Biblical Hebrew
-* [Dirk Roorda](mailto:dirk.roorda@dans.knaw.nl) -
+* [Dirk Roorda](https://github.com/dirkroorda)
   [DANS](https://dans.knaw.nl/en/front-page?set_language=en) -
   author of the supporting library
   [Text-Fabric](https://github.com/Dans-labs/text-fabric).
+
+
 
