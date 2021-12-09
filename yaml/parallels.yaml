@@ -1,0 +1,7 @@
+crossref:
+  desc: 🆗 links between similar passages
+crossrefSET:
+  desc: 🆗 links between similar passages, based on SET method
+crossrefLCS:
+  desc: 🆗 links between similar passages, based on LCS method
+

@@ -2,11 +2,12 @@
 @edgeValues
 @author=BHSA Data: Constantijn Sikkel; Parallels Notebook: Dirk Roorda, Martijn Naaijer
 @coreData=BHSA
-@coreVersion=2021
-@source=Parallels Module
+@description=🆗 links between similar passages, based on LCS method
+@provenance=Parallels notebook, see https://github.com/ETCBC/parallels
 @valueType=int
+@version=2021
 @writtenBy=Text-Fabric
-@dateWritten=2021-11-30T15:36:19Z
+@dateWritten=2021-12-09T14:40:46Z
 
 1414401	1414407	84
 1414401	1414411	89

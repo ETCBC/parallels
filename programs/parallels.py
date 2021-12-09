@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
-
-
-
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
 # <div class="toc" style="margin-top: 1em;"><ul class="toc-item"><li><span><a href="#0.1-Motivation" data-toc-modified-id="0.1-Motivation-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>0.1 Motivation</a></span></li><li><span><a href="#0.3-Open-Source" data-toc-modified-id="0.3-Open-Source-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>0.3 Open Source</a></span></li><li><span><a href="#0.4-What-are-parallel-passages?" data-toc-modified-id="0.4-What-are-parallel-passages?-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>0.4 What are parallel passages?</a></span></li><li><span><a href="#0.5-Authors" data-toc-modified-id="0.5-Authors-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>0.5 Authors</a></span></li><li><span><a href="#0.6-Status" data-toc-modified-id="0.6-Status-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>0.6 Status</a></span></li><li><span><a href="#2.1-Assessing-the-outcomes" data-toc-modified-id="2.1-Assessing-the-outcomes-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>2.1 Assessing the outcomes</a></span><ul class="toc-item"><li><span><a href="#2.1.1-Assessment-criteria" data-toc-modified-id="2.1.1-Assessment-criteria-6.1"><span class="toc-item-num">6.1&nbsp;&nbsp;</span>2.1.1 Assessment criteria</a></span></li></ul></li><li><span><a href="#3.1-Similarity" data-toc-modified-id="3.1-Similarity-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>3.1 Similarity</a></span><ul class="toc-item"><li><span><a href="#3.1.1-SET" data-toc-modified-id="3.1.1-SET-7.1"><span class="toc-item-num">7.1&nbsp;&nbsp;</span>3.1.1 SET</a></span></li><li><span><a href="#3.1.2-LCS" data-toc-modified-id="3.1.2-LCS-7.2"><span class="toc-item-num">7.2&nbsp;&nbsp;</span>3.1.2 LCS</a></span></li></ul></li><li><span><a href="#3.2-Performance" data-toc-modified-id="3.2-Performance-8"><span class="toc-item-num">8&nbsp;&nbsp;</span>3.2 Performance</a></span></li><li><span><a href="#4.1-Chunking" data-toc-modified-id="4.1-Chunking-9"><span class="toc-item-num">9&nbsp;&nbsp;</span>4.1 Chunking</a></span><ul class="toc-item"><li><span><a href="#4.1.1-Fixed-chunking" data-toc-modified-id="4.1.1-Fixed-chunking-9.1"><span class="toc-item-num">9.1&nbsp;&nbsp;</span>4.1.1 Fixed chunking</a></span></li><li><span><a href="#4.1.2-Object-chunking" data-toc-modified-id="4.1.2-Object-chunking-9.2"><span class="toc-item-num">9.2&nbsp;&nbsp;</span>4.1.2 Object chunking</a></span></li></ul></li><li><span><a href="#4.2-Preparing" data-toc-modified-id="4.2-Preparing-10"><span class="toc-item-num">10&nbsp;&nbsp;</span>4.2 Preparing</a></span></li><li><span><a href="#4.3-Cliques" data-toc-modified-id="4.3-Cliques-11"><span class="toc-item-num">11&nbsp;&nbsp;</span>4.3 Cliques</a></span><ul class="toc-item"><li><span><a href="#4.3.1-Organizing-the-cliques" data-toc-modified-id="4.3.1-Organizing-the-cliques-11.1"><span class="toc-item-num">11.1&nbsp;&nbsp;</span>4.3.1 Organizing the cliques</a></span></li><li><span><a href="#4.3.2-Evaluating-clique-sets" data-toc-modified-id="4.3.2-Evaluating-clique-sets-11.2"><span class="toc-item-num">11.2&nbsp;&nbsp;</span>4.3.2 Evaluating clique sets</a></span></li></ul></li><li><span><a href="#5.1-Loading-the-feature-data" data-toc-modified-id="5.1-Loading-the-feature-data-12"><span class="toc-item-num">12&nbsp;&nbsp;</span>5.1 Loading the feature data</a></span></li><li><span><a href="#5.2-Configuration" data-toc-modified-id="5.2-Configuration-13"><span class="toc-item-num">13&nbsp;&nbsp;</span>5.2 Configuration</a></span></li><li><span><a href="#5.3-Experiment-settings" data-toc-modified-id="5.3-Experiment-settings-14"><span class="toc-item-num">14&nbsp;&nbsp;</span>5.3 Experiment settings</a></span></li><li><span><a href="#5.4-Chunking" data-toc-modified-id="5.4-Chunking-15"><span class="toc-item-num">15&nbsp;&nbsp;</span>5.4 Chunking</a></span></li><li><span><a href="#5.5-Preparing" data-toc-modified-id="5.5-Preparing-16"><span class="toc-item-num">16&nbsp;&nbsp;</span>5.5 Preparing</a></span><ul class="toc-item"><li><span><a href="#5.5.1-Preparing-for-SET-comparison" data-toc-modified-id="5.5.1-Preparing-for-SET-comparison-16.1"><span class="toc-item-num">16.1&nbsp;&nbsp;</span>5.5.1 Preparing for SET comparison</a></span></li><li><span><a href="#5.5.2-Preparing-for-LCS-comparison" data-toc-modified-id="5.5.2-Preparing-for-LCS-comparison-16.2"><span class="toc-item-num">16.2&nbsp;&nbsp;</span>5.5.2 Preparing for LCS comparison</a></span></li></ul></li><li><span><a href="#5.6-Similarity-computation" data-toc-modified-id="5.6-Similarity-computation-17"><span class="toc-item-num">17&nbsp;&nbsp;</span>5.6 Similarity computation</a></span><ul class="toc-item"><li><span><a href="#5.6.1-SET-similarity" data-toc-modified-id="5.6.1-SET-similarity-17.1"><span class="toc-item-num">17.1&nbsp;&nbsp;</span>5.6.1 SET similarity</a></span></li><li><span><a href="#5.6.2-LCS-similarity" data-toc-modified-id="5.6.2-LCS-similarity-17.2"><span class="toc-item-num">17.2&nbsp;&nbsp;</span>5.6.2 LCS similarity</a></span></li></ul></li><li><span><a href="#5.7-Cliques" data-toc-modified-id="5.7-Cliques-18"><span class="toc-item-num">18&nbsp;&nbsp;</span>5.7 Cliques</a></span></li><li><span><a href="#5.7.1-Selecting-passages" data-toc-modified-id="5.7.1-Selecting-passages-19"><span class="toc-item-num">19&nbsp;&nbsp;</span>5.7.1 Selecting passages</a></span></li><li><span><a href="#5.7.2-Growing-cliques" data-toc-modified-id="5.7.2-Growing-cliques-20"><span class="toc-item-num">20&nbsp;&nbsp;</span>5.7.2 Growing cliques</a></span></li><li><span><a href="#5.8-Output" data-toc-modified-id="5.8-Output-21"><span class="toc-item-num">21&nbsp;&nbsp;</span>5.8 Output</a></span><ul class="toc-item"><li><span><a href="#5.8.1-Format-definitions" data-toc-modified-id="5.8.1-Format-definitions-21.1"><span class="toc-item-num">21.1&nbsp;&nbsp;</span>5.8.1 Format definitions</a></span></li><li><span><a href="#5.8.2-Formatting-clique-lists" data-toc-modified-id="5.8.2-Formatting-clique-lists-21.2"><span class="toc-item-num">21.2&nbsp;&nbsp;</span>5.8.2 Formatting clique lists</a></span></li><li><span><a href="#5.8.3-Compiling-the-table-of-experiments" data-toc-modified-id="5.8.3-Compiling-the-table-of-experiments-21.3"><span class="toc-item-num">21.3&nbsp;&nbsp;</span>5.8.3 Compiling the table of experiments</a></span></li><li><span><a href="#5.8.4-High-level-formatting-functions" data-toc-modified-id="5.8.4-High-level-formatting-functions-21.4"><span class="toc-item-num">21.4&nbsp;&nbsp;</span>5.8.4 High level formatting functions</a></span></li></ul></li><li><span><a href="#5.9-Running-experiments" data-toc-modified-id="5.9-Running-experiments-22"><span class="toc-item-num">22&nbsp;&nbsp;</span>5.9 Running experiments</a></span></li><li><span><a href="#Discussion" data-toc-modified-id="Discussion-23"><span class="toc-item-num">23&nbsp;&nbsp;</span>Discussion</a></span></li></ul></div>
 
@@ -120,9 +114,9 @@
 # This notebook makes use of a new feature of text-fabric, first present in 2.3.15.
 # Make sure to upgrade first.
 # 
-# ```sudo -H pip3 install --upgrade text-fabric
-
-# In[1]:
+# ```
+# sudo -H pip3 install --upgrade text-fabric
+# ```
 
 # In[1]:
 
@@ -134,27 +128,29 @@ import collections
 import pickle
 import math
 import difflib
+import yaml
 from difflib import SequenceMatcher
 from IPython.display import HTML
 import matplotlib.pyplot as plt
+from tf.core.helpers import formatMeta
 
 
 # pip3 install python-Levenshtein
 
-# In[ ]:
+# In[2]:
 
 
 from Levenshtein import ratio
 
 
-# In[4]:
+# In[3]:
 
 
 import utils
 from tf.fabric import Fabric
 
 
-# In[ ]:
+# In[4]:
 
 
 get_ipython().run_line_magic("load_ext", "autoreload")  # noqa F821
@@ -164,7 +160,7 @@ get_ipython().run_line_magic("matplotlib", "inline")  # noqa F821
 
 # In[2]:
 
-# In[ ]:
+# In[5]:
 
 
 if "SCRIPT" not in locals():
@@ -182,7 +178,7 @@ if "SCRIPT" not in locals():
     VERSION = "2021"
 
 
-# In[2]:
+# In[6]:
 
 
 def stop(good=False):
@@ -192,7 +188,7 @@ def stop(good=False):
 
 # In[3]:
 
-# In[3]:
+# In[7]:
 
 
 # run this cell after all other cells
@@ -464,7 +460,7 @@ if False and not SCRIPT:
 # 
 # The rest is code. From here we fire up the engines and start computing.
 
-# In[ ]:
+# In[8]:
 
 
 PICKLE_PROTOCOL = 3
@@ -477,7 +473,7 @@ PICKLE_PROTOCOL = 3
 
 # In[5]:
 
-# In[ ]:
+# In[9]:
 
 
 repoBase = os.path.expanduser("~/github/etcbc")
@@ -485,13 +481,13 @@ coreRepo = "{}/{}".format(repoBase, CORE_NAME)
 thisRepo = "{}/{}".format(repoBase, NAME)
 
 
-# In[ ]:
+# In[10]:
 
 
 coreTf = "{}/tf/{}".format(coreRepo, VERSION)
 
 
-# In[ ]:
+# In[11]:
 
 
 allTemp = "{}/_temp".format(thisRepo)
@@ -499,7 +495,7 @@ thisTemp = "{}/_temp/{}".format(thisRepo, VERSION)
 thisTempTf = "{}/tf".format(thisTemp)
 
 
-# In[5]:
+# In[12]:
 
 
 thisTf = "{}/tf/{}".format(thisRepo, VERSION)
@@ -508,7 +504,7 @@ thisNotes = "{}/shebanq/{}".format(thisRepo, VERSION)
 
 # In[6]:
 
-# In[6]:
+# In[13]:
 
 
 notesFile = "crossrefNotes.csv"
@@ -523,7 +519,7 @@ if not os.path.exists(thisNotes):
 
 # In[7]:
 
-# In[7]:
+# In[14]:
 
 
 if SCRIPT:
@@ -542,7 +538,7 @@ if SCRIPT:
 
 # In[8]:
 
-# In[8]:
+# In[15]:
 
 
 utils.caption(4, "Load the existing TF dataset")
@@ -551,7 +547,7 @@ TF = Fabric(locations=coreTf, modules=[""])
 
 # In[9]:
 
-# In[9]:
+# In[16]:
 
 
 api = TF.load(
@@ -576,7 +572,7 @@ api.makeAvailableIn(globals())
 
 # In[10]:
 
-# In[ ]:
+# In[17]:
 
 
 # chunking
@@ -586,7 +582,7 @@ CHUNK_SIZES = (100, 50, 20, 10)
 CHUNK_OBJECTS = ("chapter", "verse", "half_verse", "sentence")
 
 
-# In[ ]:
+# In[18]:
 
 
 # preparing
@@ -594,7 +590,7 @@ EXCLUDED_CONS = r"[>WJ=/\[]"  # weed out weak consonants
 EXCLUDED_PAT = re.compile(EXCLUDED_CONS)
 
 
-# In[ ]:
+# In[19]:
 
 
 # similarity
@@ -603,7 +599,7 @@ SIM_METHODS = ("SET", "LCS")
 SIMILARITIES = (100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30)
 
 
-# In[ ]:
+# In[20]:
 
 
 # printing
@@ -614,7 +610,7 @@ LARGE_CLIQUE_SIZE = 50
 CLIQUES_PER_FILE = 50
 
 
-# In[ ]:
+# In[21]:
 
 
 # assessing results
@@ -635,14 +631,14 @@ VALUE_LABELS = dict(
 # Here the results of expensive calculations are stored,
 # to be used by all versions
 
-# In[ ]:
+# In[22]:
 
 
 # crossrefs for TF
 TF_TABLE = "{}/parallelTable.tsv".format(allTemp)
 
 
-# In[ ]:
+# In[23]:
 
 
 # crossrefs for SHEBANQ
@@ -653,7 +649,7 @@ CROSSREF_STATUS = "!"
 CROSSREF_KEYWORD = "crossref"
 
 
-# In[ ]:
+# In[24]:
 
 
 # progress indication
@@ -664,7 +660,7 @@ SIMILARITY_PROGRESS = 5 * MEGA
 CLIQUES_PROGRESS = 1 * KILO
 
 
-# In[10]:
+# In[25]:
 
 
 # locations and hyperlinks
@@ -690,7 +686,7 @@ CROSSREF_DB_PATH = "{}/{}".format(LOCAL_BASE_OUTP, CROSSREF_DB_FILE)
 
 # In[11]:
 
-# In[ ]:
+# In[26]:
 
 
 def reset_params():
@@ -718,7 +714,7 @@ def reset_params():
     meta = collections.OrderedDict()
 
 
-# In[ ]:
+# In[27]:
 
 
 def set_matrix_threshold(sim_m=None, chunk_o=None):
@@ -738,7 +734,7 @@ def set_matrix_threshold(sim_m=None, chunk_o=None):
             MATRIX_THRESHOLD = 60
 
 
-# In[ ]:
+# In[28]:
 
 
 def do_params_chunk(chunk_f, chunk_i):
@@ -769,7 +765,7 @@ def do_params_chunk(chunk_f, chunk_i):
     return do_chunk
 
 
-# In[ ]:
+# In[29]:
 
 
 def do_params(chunk_f, chunk_i, sim_m, sim_thr):
@@ -833,7 +829,7 @@ def do_params(chunk_f, chunk_i, sim_m, sim_thr):
     return (do_chunk, do_prep, do_sim, do_clique, False)
 
 
-# In[11]:
+# In[30]:
 
 
 reset_params()
@@ -847,7 +843,7 @@ reset_params()
 
 # In[12]:
 
-# In[12]:
+# In[31]:
 
 
 def chunking(do_chunk):
@@ -957,7 +953,7 @@ def chunking(do_chunk):
 
 # In[13]:
 
-# In[13]:
+# In[32]:
 
 
 def preparing(do_prepare):
@@ -1014,7 +1010,7 @@ def preparing(do_prepare):
 
 # In[14]:
 
-# In[ ]:
+# In[33]:
 
 
 def similarity_post():
@@ -1037,7 +1033,7 @@ def similarity_post():
     )
 
 
-# In[14]:
+# In[34]:
 
 
 def similarity(do_sim):
@@ -1216,7 +1212,7 @@ def similarity(do_sim):
 
 # In[15]:
 
-# In[ ]:
+# In[35]:
 
 
 def key_chunk(i):
@@ -1230,7 +1226,7 @@ def key_chunk(i):
     )
 
 
-# In[ ]:
+# In[36]:
 
 
 def meta_clique_pre():
@@ -1255,7 +1251,7 @@ def meta_clique_pre():
     meta["# SIMILAR PASSAGES"] = len(passages)
 
 
-# In[ ]:
+# In[37]:
 
 
 def meta_clique_pre2():
@@ -1272,7 +1268,7 @@ def meta_clique_pre2():
     )
 
 
-# In[ ]:
+# In[38]:
 
 
 def meta_clique_post():
@@ -1313,7 +1309,7 @@ def meta_clique_post():
     )
 
 
-# In[15]:
+# In[39]:
 
 
 def cliqueing(do_clique):
@@ -1471,7 +1467,7 @@ def cliqueing(do_clique):
 
 # In[16]:
 
-# In[ ]:
+# In[40]:
 
 
 # clique lists
@@ -1535,7 +1531,7 @@ span.replace {
 """
 
 
-# In[ ]:
+# In[41]:
 
 
 # chapter diffs
@@ -1561,7 +1557,7 @@ diffhead = """
 """
 
 
-# In[ ]:
+# In[42]:
 
 
 # table of experiments
@@ -1584,7 +1580,7 @@ table {border: 1pt solid #000000; border-collapse: collapse;}
 """
 
 
-# In[16]:
+# In[43]:
 
 
 legend = """
@@ -1605,7 +1601,7 @@ legend = """
 
 # In[17]:
 
-# In[ ]:
+# In[44]:
 
 
 def xterse_chunk(i):
@@ -1616,14 +1612,14 @@ def xterse_chunk(i):
     return (book, chapter)
 
 
-# In[ ]:
+# In[45]:
 
 
 def xterse_clique(ii):
     return tuple(sorted({xterse_chunk(i) for i in ii}))
 
 
-# In[ ]:
+# In[46]:
 
 
 def terse_chunk(i):
@@ -1635,14 +1631,14 @@ def terse_chunk(i):
     return (book, chapter, verse)
 
 
-# In[ ]:
+# In[47]:
 
 
 def terse_clique(ii):
     return tuple(sorted({terse_chunk(i) for i in ii}))
 
 
-# In[ ]:
+# In[48]:
 
 
 def verse_chunk(i):
@@ -1659,7 +1655,7 @@ def verse_chunk(i):
     return '<tr class="ht">{}</tr>'.format(htext)
 
 
-# In[ ]:
+# In[49]:
 
 
 def verse_clique(ii):
@@ -1668,7 +1664,7 @@ def verse_clique(ii):
     )
 
 
-# In[ ]:
+# In[50]:
 
 
 def condense(vlabels):
@@ -1693,7 +1689,7 @@ def condense(vlabels):
     return cnd
 
 
-# In[ ]:
+# In[51]:
 
 
 def print_diff(a, b):
@@ -1715,7 +1711,7 @@ def print_diff(a, b):
     return (arep, brep)
 
 
-# In[ ]:
+# In[52]:
 
 
 def print_chunk_fine(prev, text, verse_labels, prevlabels):
@@ -1739,7 +1735,7 @@ def print_chunk_fine(prev, text, verse_labels, prevlabels):
         )
 
 
-# In[ ]:
+# In[53]:
 
 
 def print_chunk_coarse(text, verse_labels):
@@ -1751,7 +1747,7 @@ def print_chunk_coarse(text, verse_labels):
     )
 
 
-# In[ ]:
+# In[54]:
 
 
 def print_clique(ii, ncliques):
@@ -1762,7 +1758,7 @@ def print_clique(ii, ncliques):
     )
 
 
-# In[ ]:
+# In[55]:
 
 
 def print_clique_fine(ii):
@@ -1796,7 +1792,7 @@ def print_clique_fine(ii):
     return '<table class="ht">{}</table>\n'.format("".join(result))
 
 
-# In[ ]:
+# In[56]:
 
 
 def print_clique_coarse(ii):
@@ -1822,7 +1818,7 @@ def print_clique_coarse(ii):
     return '<table class="ht">{}</table>\n'.format("".join(result))
 
 
-# In[ ]:
+# In[57]:
 
 
 def index_clique(bnm, n, ii, ncliques):
@@ -1833,7 +1829,7 @@ def index_clique(bnm, n, ii, ncliques):
     )
 
 
-# In[ ]:
+# In[58]:
 
 
 def index_clique_fine(bnm, n, ii):
@@ -1854,7 +1850,7 @@ def index_clique_fine(bnm, n, ii):
     )
 
 
-# In[ ]:
+# In[59]:
 
 
 def index_clique_coarse(bnm, n, ii):
@@ -1881,7 +1877,7 @@ def index_clique_coarse(bnm, n, ii):
     )
 
 
-# In[ ]:
+# In[60]:
 
 
 def lines_chapter(c):
@@ -1896,7 +1892,7 @@ def lines_chapter(c):
     return lines
 
 
-# In[17]:
+# In[61]:
 
 
 def compare_chapters(c1, c2, lb1, lb2):
@@ -1919,7 +1915,7 @@ def compare_chapters(c1, c2, lb1, lb2):
 
 # In[18]:
 
-# In[18]:
+# In[62]:
 
 
 # generate the table of experiments
@@ -2044,7 +2040,7 @@ def gen_html(standalone=False):
 
 # In[19]:
 
-# In[ ]:
+# In[63]:
 
 
 def assess_exp(cf, np, nc, ll):
@@ -2061,7 +2057,7 @@ def assess_exp(cf, np, nc, ll):
     )
 
 
-# In[19]:
+# In[64]:
 
 
 def printing():
@@ -2335,13 +2331,13 @@ def printing():
 
 # In[20]:
 
-# In[ ]:
+# In[65]:
 
 
 outputs = {}
 
 
-# In[ ]:
+# In[66]:
 
 
 def writeoutputs():
@@ -2350,7 +2346,7 @@ def writeoutputs():
         pickle.dump(outputs, f, protocol=PICKLE_PROTOCOL)
 
 
-# In[ ]:
+# In[67]:
 
 
 def readoutputs():
@@ -2362,7 +2358,7 @@ def readoutputs():
             outputs = pickle.load(f)
 
 
-# In[ ]:
+# In[68]:
 
 
 def do_experiment(chunk_f, chunk_i, sim_m, sim_thr, do_index):
@@ -2383,7 +2379,7 @@ def do_experiment(chunk_f, chunk_i, sim_m, sim_thr, do_index):
         gen_html()
 
 
-# In[ ]:
+# In[69]:
 
 
 def do_only_chunk(chunk_f, chunk_i):
@@ -2391,7 +2387,7 @@ def do_only_chunk(chunk_f, chunk_i):
     chunking(do_chunk)
 
 
-# In[ ]:
+# In[70]:
 
 
 def reset_experiments():
@@ -2403,7 +2399,7 @@ def reset_experiments():
     gen_html()
 
 
-# In[ ]:
+# In[71]:
 
 
 def do_all_experiments(no_fixed=False, only_object=None):
@@ -2423,7 +2419,7 @@ def do_all_experiments(no_fixed=False, only_object=None):
     gen_html(standalone=True)
 
 
-# In[ ]:
+# In[72]:
 
 
 def do_all_chunks(no_fixed=False, only_object=None):
@@ -2438,7 +2434,7 @@ def do_all_chunks(no_fixed=False, only_object=None):
             do_only_chunk(chunk_f, chunk_i)
 
 
-# In[20]:
+# In[73]:
 
 
 def show_all_experiments():
@@ -2516,7 +2512,7 @@ def show_all_experiments():
 
 # In[21]:
 
-# In[ ]:
+# In[74]:
 
 
 def writeSimTable(similars):
@@ -2525,7 +2521,7 @@ def writeSimTable(similars):
             h.write("{}\n".format("\t".join(str(x) for x in entry)))
 
 
-# In[ ]:
+# In[75]:
 
 
 def readSimTable():
@@ -2583,7 +2579,7 @@ def readSimTable():
     return similars
 
 
-# In[21]:
+# In[76]:
 
 
 def makeSimTable():
@@ -2623,13 +2619,13 @@ def makeSimTable():
 
 # In[22]:
 
-# In[ ]:
+# In[77]:
 
 
 utils.caption(4, "CROSSREFS: Fetching crossrefs")
 
 
-# In[ ]:
+# In[78]:
 
 
 xTable = os.path.exists(TF_TABLE)
@@ -2648,7 +2644,7 @@ else:
         utils.caption(0, "\tComputing missing {}".format(TF_TABLE))
 
 
-# In[22]:
+# In[79]:
 
 
 if FORCE_MATRIX or not xTable:
@@ -2659,7 +2655,7 @@ else:
 
 # In[23]:
 
-# In[23]:
+# In[80]:
 
 
 if not SCRIPT:
@@ -2667,16 +2663,14 @@ if not SCRIPT:
     print("\n".join(sorted(repr(sim) for sim in similars if sim[0] == "SET")[0:10]))
 
 
-# In[29]:
-
-# In[ ]:
+# In[81]:
 
 
 crossrefData = {}
 otherMethod = dict(LCS="SET", SET="LCS")
 
 
-# In[29]:
+# In[82]:
 
 
 for (method, v1, v2, sim, *x) in similars:
@@ -2694,22 +2688,35 @@ for (method, v1, v2, sim, *x) in similars:
 # We generate the feature `crossref`.
 # It is an edge feature between verse nodes, with the similarity as weight.
 
-# In[32]:
-
-# In[ ]:
+# In[89]:
 
 
 utils.caption(4, "Writing TF parallel features")
 
 
-# In[ ]:
+# In[90]:
 
 
 newFeatureStr = "crossref crossrefSET crossrefLCS"
 newFeatures = newFeatureStr.strip().split()
 
 
-# In[ ]:
+# In[91]:
+
+
+genericMetaPath = f"{thisRepo}/yaml/generic.yaml"
+parallelsMetaPath = f"{thisRepo}/yaml/parallels.yaml"
+
+with open(genericMetaPath) as fh:
+    genericMeta = yaml.load(fh, Loader=yaml.FullLoader)
+    genericMeta["version"] = VERSION
+with open(parallelsMetaPath) as fh:
+    parallelsMeta = formatMeta(yaml.load(fh, Loader=yaml.FullLoader))
+
+metaData = {"": genericMeta, **parallelsMeta}
+
+
+# In[92]:
 
 
 nodeFeatures = dict()
@@ -2718,21 +2725,15 @@ for method in [""] + list(otherMethod):
     edgeFeatures["crossref{}".format(method)] = crossrefData[method]
 
 
-# In[ ]:
+# In[93]:
 
 
-provenance = dict(
-    source="Parallels Module",
-    coreData="BHSA",
-    coreVersion=VERSION,
-    author="BHSA Data: Constantijn Sikkel; Parallels Notebook: Dirk Roorda, Martijn Naaijer",
-)
-metaData = {"": provenance}
 for newFeature in newFeatures:
-    metaData[newFeature] = dict(valueType="int", edgeValues=True)
+    metaData[newFeature]["valueType"] = "int"
+    metaData[newFeature]["edgeValues"] = True
 
 
-# In[32]:
+# In[94]:
 
 
 TF = Fabric(locations=thisTempTf, silent=True)
